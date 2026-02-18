@@ -4,7 +4,7 @@ const Post = require("../models/Post");
 
 //Blog's Home Page
 
-router("/", async (req, res) => {
+router.get("/", async (req, res) => {
   const locals = {
     title: "Node,js Blog",
     description:
@@ -16,3 +16,5 @@ router("/", async (req, res) => {
     console.error(error);
   }
 });
+
+module.exports = router;
