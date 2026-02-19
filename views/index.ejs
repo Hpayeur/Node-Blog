@@ -1,9 +1,6 @@
 <div class="author">
   <h1 class="author__heading">Hello! Welcome to my Blog!</h1>
-  <p class="author__body">
-    I'm a Student currently learning Web Development. This is a simple blog that
-    was built with Node.js and Express.
-  </p>
+  <p class="author__body">I'm a Student currently learning Web Dev This is a simple blog that was built with Node.js and Express.</p>
 </div>
 
 <img src="img/apple.jpeg" alt="apple" />
@@ -11,30 +8,29 @@
 <section class="articles">
   <h2 class="articles__heading">Latest Posts</h2>
 
-  <!-- Posts
-  <ul class="articles">
-    <% data.forEach(post => { %>
-<li>
-  <a href="/post/<%= post.id %>">
-<span><%- post.title %></span>
-<span class="article-list__date">
-  <%= post.createdAt.toDateString() %>
-</span>
-  </a>
-</li>
-   <% }); %> 
+  <!-- Dummy Data -->
+   <!-- <ul class="article-ul">
+    <li>
+      <a href="#">
+        <span>Post Title</span>
+        <span class="article-list__date">Date</span>
+      </a>
+    </li>
   </ul>
-  <a href="#" class="pagination"> &lt; View Older Posts </a>
- <% if (nextPage !== null) { %>
-  <a href="/?page=<%= nextPage %>" class="pagination">&lt; View Older Posts</a>
-  <% } %>
+  <a href="#" class="pagination"> &lt; View Older Posts </a> -->
 
- if prevPage is 1 then go to / -->
-  <!-- <% if (prevPage >= 1) { %> <% if (prevPage === 1) { %>
-  <a href="/" class="pagination-newer">View Newer Posts &gt;</a>
-  <% } else { %>
-  <a href="/?page=<%= prevPage %>" class="pagination-newer"
-    >View Newer Posts &gt;</a
-  >
-  <% } %> <% } %> -->
+  <!--Posts-->
+  <ul class="articles-ul">
+    <% data.forEach(post => { %>
+      <li>
+        <a href="/post/<%= post.id %>">
+          <span><%= post.title %></span>
+          <span class="article-list__date"><%= post.date %>
+          <% post.createdAt.toDateString() %>
+          </span>
+        </a>
+      </li>
+    <%});%>
+  </ul>
+ 
 </section>

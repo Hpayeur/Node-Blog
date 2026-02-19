@@ -5,6 +5,7 @@ const router = express.Router();
 const Post = require("../models/Post");
 
 //Blog's Home Page
+
 router.get("/", async (req, res) => {
   try {
     const locals = {
@@ -20,6 +21,8 @@ router.get("/", async (req, res) => {
       .limit(perPage)
       .exec();
 
+    // Count is deprecated - please use countDocuments({}) instead
+    // const count = await Post.count();
     const count = await Post.countDocuments({});
     const nextPage = parseInt(page) + 1;
     const hasNextPage = nextPage <= Math.ceil(count / perPage);
@@ -37,7 +40,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get Post by Id
+// // Get Post by Id
 router.get("/post/:id", async (req, res) => {
   try {
     let slug = req.params.id;
@@ -53,25 +56,25 @@ router.get("/post/:id", async (req, res) => {
   }
 });
 
-// Search Post
-router.post("/search", async (req, res) => {
-  try {
-    const locals = {
-      title: "Search",
-      description: "a blog template made with NodeJS and ExpressJS",
-    };
-    let searchTerm = req.body.searchTerm;
-    const searchNOSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
-    const data = await Post.find({
-      $or: [
-        { title: { $regex: new RegExp(searchNOSpecialChar, "i") } },
-        { body: { $regex: new RegExp(searchNOSpecialChar, "i") } },
-      ],
-    });
-  } catch (error) {
-    console.log(error);
-    res.render("search", { locals, data: [], searchTerm: "" });
-  }
-});
-
 module.exports = router;
+
+// // Search Post
+// router.post("/search", async (req, res) => {
+//   try {
+//     const locals = {
+//       title: "Search",
+//       description: "a blog template made with NodeJS and ExpressJS",
+//     };
+//     let searchTerm = req.body.searchTerm;
+//     const searchNOSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
+//     const data = await Post.find({
+//       $or: [
+//         { title: { $regex: new RegExp(searchNOSpecialChar, "i") } },
+//         { body: { $regex: new RegExp(searchNOSpecialChar, "i") } },
+//       ],
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.render("search", { locals, data: [], searchTerm: "" });
+//   }
+// });
