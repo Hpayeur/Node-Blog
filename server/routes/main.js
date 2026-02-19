@@ -4,16 +4,34 @@ const Post = require("../models/Post");
 
 //Blog's Home Page
 router.get("/", async (req, res) => {
-  const locals = {
-    title: "NodeJs Blog",
-    description:
-      " A Blog template application that will be used for your own use.",
-  };
   try {
-    const data = await Post.find().sort({ title: "desc" });
-    res.render("index", { locals, data });
+    const locals = {
+      title: "NodeJs Blog",
+      description: "Simple Blog created with NodeJs, Express & MongoDb.",
+    };
+
+    let perPage = 3;
+    let page = req.query.page || 1;
+
+    const data = await Post.aggregate([{ $sort: { title: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
+
+    const count = await Post.countDocuments({});
+    const nextPage = parseInt(page) + 1;
+    const hasNextPage = nextPage <= Math.ceil(count / perPage);
+    const hasNextPagePlus = nextPage <= Math.ceil(count * perPage);
+
+    res.render("index", {
+      locals,
+      data,
+      current: page,
+      nextPage: hasNextPage ? nextPage : null,
+      prevPage: hasNextPagePlus ? page - 1 : null,
+    });
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 });
 
@@ -40,7 +58,7 @@ router.post("/search", async (req, res) => {
       title: "Search",
       description: "a blog template made with NodeJS and ExpressJS",
     };
-    let searchTerm = req.body.SearchTerm;
+    let searchTerm = req.body.searchTerm;
     const searchNOSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
     const data = await Post.find({
       $or: [
