@@ -71,6 +71,7 @@ router.get("/dashboard", authMiddleware, async (req, res) => {
       title: "Dashboard",
       description: "A blog template made with NodeJS and ExpressJS",
     };
+
     const data = await Post.find();
     res.render("admin/dashboard", { locals, data, layout: adminLayout });
   } catch (error) {}
